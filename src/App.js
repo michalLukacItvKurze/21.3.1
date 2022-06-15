@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Formular from './Formular';
+import "./App.css";
 
-function App() {
+
+function App(){
+  
+  const [data, zmenData]=useState([]);
+  const [prveNacitanie,zmenPrveNacitanie]=useState(true);
+ 
+  console.log('Loading   '+ prveNacitanie);
+
+  if(prveNacitanie){
+    fetch('https://jsonplaceholder.typicode.com/todos')
+    .then(response => response.json())
+    .then(json => {
+      console.log('Sme vo fetch' + json);
+      zmenData(json)
+      zmenPrveNacitanie(false);
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <a href=''>Stranka 1</a>
+      {data.map(element=> <p>{element.title}</p>)}
+      <Formular funkciaPreZmenuDatRodica={zmenData}/>
+    </>
   );
+  
 }
+  
 
 export default App;
